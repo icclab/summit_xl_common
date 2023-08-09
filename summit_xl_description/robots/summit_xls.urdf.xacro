@@ -58,8 +58,8 @@
 	<!-- Flag to select the high or low quality model -->
 	<xacro:property name="hq" value="true" />
 
-	<xacro:arg name="prefix" default="summit_xl_"/>
-	<xacro:arg name="ros_planar_move_plugin" default="false"/>
+	<xacro:arg name="prefix" default=""/> <!-- was: summit_xl_-->
+	<xacro:arg name="ros_planar_move_plugin" default="true"/>
 	<xacro:arg name="gpu" default="false"/>
 
 
@@ -82,11 +82,11 @@
 			<origin xyz="${wheel_offset_x} ${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
 		</xacro:omni_wheel>
 
-		<xacro:omni_wheel prefix="$(arg prefix)back_left" parent="$(arg prefix)base_link" reflect="true" hq="${hq}">
+		<xacro:omni_wheel prefix="$(arg prefix)rear_left" parent="$(arg prefix)base_link" reflect="true" hq="${hq}">
 			<origin xyz="-${wheel_offset_x} ${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
 		</xacro:omni_wheel>
 
-		<xacro:omni_wheel prefix="$(arg prefix)back_right" parent="$(arg prefix)base_link" reflect="false" hq="${hq}">
+		<xacro:omni_wheel prefix="$(arg prefix)rear_right" parent="$(arg prefix)base_link" reflect="false" hq="${hq}">
 			<origin xyz="-${wheel_offset_x} -${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
 		</xacro:omni_wheel>
         <!-- IMU -->
@@ -122,13 +122,16 @@
 
    </xacro:macro>
 
-   <xacro:ros_control/>
-
+   
    <xacro:if value="$(arg ros_planar_move_plugin)">
 	   <xacro:omni_steering prefix="$(arg prefix)" publish_tf="true"/>
    </xacro:if>
 
    <xacro:summit_xl prefix="$(arg prefix)" publish_bf="true" hq="true"/>
 
+   <!-- Gazebo ros control plugins -->
+  <xacro:arg name="config_controllers" default=""/>
+  <xacro:include filename="$(find summit_xl_description)/urdf/ros2_control.urdf.xacro"/>
+  <xacro:ros2_control/>
 
 </robot>
