@@ -41,7 +41,7 @@ def generate_launch_description():
         executable='async_slam_toolbox_node',
         name='slam_toolbox',
         output='screen',
-        namespace='robot')
+        namespace=robot_id)
 
     ld = LaunchDescription()
 
