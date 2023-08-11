@@ -9,7 +9,7 @@
 	<!-- First we import all posible elements defined in the urdf.xacro files. All these elements are defined as macro:xacros -->
 
 	<!-- Import summit XL base elements -->
-	<xacro:include filename="$(find summit_xl_description)/urdf/bases/summit_xls_base.urdf.xacro" />
+	<xacro:include filename="$(find summit_xl_description)/urdf/bases/summit_xl_hls_base.urdf.xacro" />
 
 	<!-- Import summit XL wheels -->
 	<xacro:include filename="$(find summit_xl_description)/urdf/wheels/omni_wheel.urdf.xacro" />
@@ -73,7 +73,7 @@
 		<!-- Here we create the robot elements using the xacro:macros imported at the beggining of this file -->
 
 		<!-- Summit XL base -->
-		<xacro:summit_xls_base prefix="$(arg prefix)" publish_bf="true" hq="${hq}" />
+		<xacro:summit_xl_hls_base prefix="$(arg prefix)" publish_bf="true" hq="${hq}" />
 
 		<xacro:omni_wheel prefix="$(arg prefix)front_right" parent="$(arg prefix)base_link" reflect="false" hq="${hq}">
 			<origin xyz="${wheel_offset_x} -${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
@@ -91,9 +91,9 @@
 			<origin xyz="-${wheel_offset_x} -${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
 		</xacro:omni_wheel>
         <!-- IMU -->
-		<xacro:sensor_imu prefix="$(arg prefix)imu" parent="$(arg prefix)base_link">
+		<xacro:sensor_imu_hector prefix="$(arg prefix)imu" ns="$(arg robot_ns)" parent="$(arg prefix)base_link">
 			<origin xyz="${imu_offset_x} ${imu_offset_y} ${imu_offset_z}" rpy="0 0 0"/>
-		</xacro:sensor_imu>
+		</xacro:sensor_imu_hector>
 
 
 		<!-- SENSORS -->
@@ -115,7 +115,7 @@
 		</xacro:sensor_axis_m5013-->
 
 
-		<xacro:sensor_orbbec_astra prefix="$(arg prefix)front_rgbd_camera" parent="$(arg prefix)base_link" ns="front_rgbd_camera">
+		<xacro:sensor_orbbec_astra prefix="$(arg prefix)front_rgbd_camera" parent="$(arg prefix)base_link" ns="$(arg robot_ns)">
 			<origin xyz="${front_rgbd_camera_offset_x} ${front_rgbd_camera_offset_y} ${front_rgbd_camera_offset_z}" rpy="0 0 0"/>
 		</xacro:sensor_orbbec_astra>
 

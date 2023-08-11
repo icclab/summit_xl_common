@@ -57,7 +57,7 @@
         <update_rate>100</update_rate>
         <publish_rate>100</publish_rate>
         <publish_odom>true</publish_odom>
-        <publish_odom_tf>true</publish_odom_tf>
+        <publish_odom_tf>${publish_tf}</publish_odom_tf>
         <odometry_frame>${namespace}/odom</odometry_frame>
         <robot_base_frame>${namespace}/base_footprint</robot_base_frame>
       </plugin>
