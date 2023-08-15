@@ -4,7 +4,7 @@ project(summit_xl_navigation)
 find_package(ament_cmake REQUIRED)
 
 install(
-  DIRECTORY launch config params
+  DIRECTORY launch config params config_rviz
   DESTINATION share/${PROJECT_NAME}
 )
 
