@@ -51,6 +51,7 @@
 		<plugin name='planar_move' filename='libgazebo_ros_planar_move.so'>
         <ros>
           <namespace>${namespace}</namespace>
+		  <remapping>/tf:=tf</remapping>
           <!-- <remapping>cmd_vel:=robotnik_base_control/cmd_vel</remapping>
           <remapping>odom:=robotnik_base_control/odom</remapping> -->
         </ros>

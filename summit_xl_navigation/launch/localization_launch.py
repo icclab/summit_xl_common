@@ -53,9 +53,9 @@ def generate_launch_description():
     # https://github.com/ros/robot_state_publisher/pull/30
     # TODO(orduno) Substitute with `PushNodeRemapping`
     #              https://github.com/ros2/launch_ros/issues/56
-    remappings = [# TOF: remappings removed because gazebo planar_plugin wont' allow us to publish tf on /ns/tf
-                  #('/tf', 'tf'),
-                  #('/tf_static', 'tf_static')
+    remappings = [
+                  ('/tf', 'tf'),
+                  ('/tf_static', 'tf_static')
                   ]
 
     # Create our own temporary YAML files that include substitutions
@@ -65,7 +65,7 @@ def generate_launch_description():
 
     configured_params = RewrittenYaml(
         source_file=params_file,
-        #root_key=namespace, #TOF: removed, this should only happen if use_namespace=true
+        root_key=namespace, #TOF: this should only happen if use_namespace=true
         param_rewrites=param_substitutions,
         convert_types=True)
 
@@ -177,8 +177,9 @@ def generate_launch_description():
 
     # Set environment variables
     ld.add_action(stdout_linebuf_envvar)
-
-    ld.add_action(LogInfo(msg=map_yaml_file))
+    ld.add_action(LogInfo(msg=["map:", map_yaml_file]))
+     # TOF log config
+    ld.add_action(LogInfo(msg=["configured params:", configured_params]))
 
     # Declare the launch options
     ld.add_action(declare_namespace_cmd)

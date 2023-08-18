@@ -54,11 +54,10 @@ def generate_launch_description():
     # https://github.com/ros/robot_state_publisher/pull/30
     # TODO(orduno) Substitute with `PushNodeRemapping`
     #              https://github.com/ros2/launch_ros/issues/56
-    remappings = [
-                  # TOF: TF remappings removed because gazebo planar_plugin wont' allow us to publish tf on /ns/tf
-                  #('/tf', 'tf'),
-                  #('/tf_static', 'tf_static')
-                  ('/cmd_vel', '/robot/cmd_vel')
+    remappings = [                  
+                  ('/tf', 'tf'),
+                  ('/tf_static', 'tf_static'),
+                  ('/cmd_vel', 'cmd_vel')
                  ]
 
     # Create our own temporary YAML files that include substitutions
@@ -68,7 +67,7 @@ def generate_launch_description():
 
     configured_params = RewrittenYaml(
             source_file=params_file,
-            #root_key=namespace, #TOF: removed, this should only happen if use_namespace=trueroot_key=namespace,
+            root_key=namespace, #TOF: this should only happen if use_namespace=true
             param_rewrites=param_substitutions,
             convert_types=True)
 
@@ -121,7 +120,7 @@ def generate_launch_description():
                 respawn_delay=2.0,
                 parameters=[configured_params],
                 arguments=['--ros-args', '--log-level', log_level],
-                remappings=remappings), #+ [('cmd_vel', '/robot/cmd_vel')]),
+                remappings=remappings), 
             Node(
                 package='nav2_smoother',
                 executable='smoother_server',
@@ -203,7 +202,7 @@ def generate_launch_description():
                 plugin='nav2_controller::ControllerServer',
                 name='controller_server',
                 parameters=[configured_params],
-                remappings=remappings), # + [('cmd_vel', '/robot/cmd_vel_nav')]),
+                remappings=remappings),
             ComposableNode(
                 package='nav2_smoother',
                 plugin='nav2_smoother::SmootherServer',

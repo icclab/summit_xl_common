@@ -50,10 +50,9 @@ def generate_launch_description():
     # https://github.com/ros/robot_state_publisher/pull/30
     # TODO(orduno) Substitute with `PushNodeRemapping`
     #              https://github.com/ros2/launch_ros/issues/56
-    remappings = [
-                  # TOF: remappings removed because gazebo planar_plugin wont' allow us to publish tf on /ns/tf
-                  #('/tf', 'tf'),
-                  #('/tf_static', 'tf_static')
+    remappings = [                  
+                  ('/tf', 'tf'),
+                  ('/tf_static', 'tf_static')
                  ]
 
     # Create our own temporary YAML files that include substitutions
@@ -77,7 +76,7 @@ def generate_launch_description():
 
     declare_use_namespace_cmd = DeclareLaunchArgument(
         'use_namespace',
-        default_value='false',
+        default_value='true',
         description='Whether to apply a namespace to the navigation stack')
 
     declare_slam_cmd = DeclareLaunchArgument(
@@ -136,7 +135,7 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(launch_dir, 'slam_launch.py')),
             condition=IfCondition(slam),
-            launch_arguments={#'namespace': namespace,
+            launch_arguments={'namespace': namespace,
                               'use_sim_time': use_sim_time,
                               'autostart': autostart,
                               'use_respawn': use_respawn,
@@ -146,7 +145,7 @@ def generate_launch_description():
             PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('summit_xl_navigation'), 'launch',
                                                        'localization_launch.py')),
             condition=IfCondition(PythonExpression(['not ', slam])),
-            launch_arguments={#'namespace': namespace,
+            launch_arguments={'namespace': namespace,
                               'map': map_yaml_file,
                               'use_sim_time': use_sim_time,
                               'autostart': autostart,
@@ -157,7 +156,7 @@ def generate_launch_description():
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('summit_xl_navigation'), 'launch', 'navigation_launch.py')),
-            launch_arguments={#'namespace': namespace,
+            launch_arguments={'namespace': namespace,
                               'use_sim_time': use_sim_time,
                               'autostart': autostart,
                               'params_file': params_file,
