@@ -6,12 +6,10 @@ Panels:
       Expanded:
         - /TF1/Frames1
         - /TF1/Tree1
-        - /Global Planner1/Global Costmap1
-        - /Controller1
         - /Controller1/Trajectories1/Topic1
         - /Camera1/Color1
       Splitter Ratio: 0.4583333432674408
-    Tree Height: 250
+    Tree Height: 213
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -58,7 +56,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /robot/robot_description
+        Value: robot_description
       Enabled: true
       Links:
         All Links Enabled: true
@@ -202,35 +200,34 @@ Visualization Manager:
       Show Names: false
       Tree:
         map:
-          {}
-        odom:
-          base_footprint:
-            base_link:
-              base_docking_contact:
-                {}
-              front_laser_base_link:
-                front_laser_link:
+          odom:
+            base_footprint:
+              base_link:
+                base_docking_contact:
                   {}
-              front_left_wheel_link:
-                {}
-              front_rgbd_camera_link:
-                front_rgbd_camera_depth_frame:
-                  front_rgbd_camera_depth_optical_frame:
+                front_laser_base_link:
+                  front_laser_link:
                     {}
-                front_rgbd_camera_rgb_frame:
-                  front_rgbd_camera_rgb_optical_frame:
-                    {}
-              front_right_wheel_link:
-                {}
-              imu_link:
-                {}
-              rear_laser_base_link:
-                rear_laser_link:
+                front_left_wheel_link:
                   {}
-              rear_left_wheel_link:
-                {}
-              rear_right_wheel_link:
-                {}
+                front_rgbd_camera_link:
+                  front_rgbd_camera_depth_frame:
+                    front_rgbd_camera_depth_optical_frame:
+                      {}
+                  front_rgbd_camera_rgb_frame:
+                    front_rgbd_camera_rgb_optical_frame:
+                      {}
+                front_right_wheel_link:
+                  {}
+                imu_link:
+                  {}
+                rear_laser_base_link:
+                  rear_laser_link:
+                    {}
+                rear_left_wheel_link:
+                  {}
+                rear_right_wheel_link:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -263,7 +260,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Best Effort
-        Value: /robot/front_laser/scan
+        Value: front_laser/scan
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
@@ -297,7 +294,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Best Effort
-        Value: /robot/rear_laser/scan
+        Value: rear_laser/scan
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
@@ -408,7 +405,7 @@ Visualization Manager:
             Filter size: 10
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /plan
+            Value: plan
           Value: true
         - Alpha: 1
           Autocompute Intensity Bounds: true
@@ -486,7 +483,7 @@ Visualization Manager:
           Buffer Length: 1
           Class: rviz_default_plugins/Path
           Color: 0; 12; 255
-          Enabled: true
+          Enabled: false
           Head Diameter: 0.30000001192092896
           Head Length: 0.20000000298023224
           Length: 0.30000001192092896
@@ -508,10 +505,10 @@ Visualization Manager:
             Filter size: 10
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /local_plan
-          Value: true
+            Value: local_plan
+          Value: false
         - Class: rviz_default_plugins/MarkerArray
-          Enabled: true
+          Enabled: false
           Name: Trajectories
           Namespaces:
             {}
@@ -521,7 +518,7 @@ Visualization Manager:
             History Policy: Keep Last
             Reliability Policy: Reliable
             Value: marker
-          Value: true
+          Value: false
         - Alpha: 1
           Class: rviz_default_plugins/Polygon
           Color: 25; 255; 0
@@ -585,7 +582,7 @@ Visualization Manager:
             Durability Policy: Volatile
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /robot/front_rgbd_camera/image_raw
+            Value: front_rgbd_camera/image_raw
           Value: true
         - Class: rviz_default_plugins/Image
           Enabled: true
@@ -599,7 +596,7 @@ Visualization Manager:
             Durability Policy: Volatile
             History Policy: Keep Last
             Reliability Policy: Reliable
-            Value: /robot/front_rgbd_camera/depth/image_raw
+            Value: front_rgbd_camera/depth/image_raw
           Value: true
       Enabled: false
       Name: Camera
@@ -668,11 +665,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 41.70395278930664
+      Scale: 34.63080978393555
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz_default_plugins)
-      X: -0.6317349672317505
-      Y: -0.3727284073829651
+      X: -0.7367271184921265
+      Y: 2.4011406898498535
     Saved: ~
 Window Geometry:
   Color:
@@ -681,18 +678,18 @@ Window Geometry:
     collapsed: false
   Displays:
     collapsed: false
-  Height: 853
+  Height: 758
   Hide Left Dock: false
   Hide Right Dock: true
   Navigation 2:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001ca000002fffc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df0000018500000168fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003b00000135000000c700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000018004e0061007600690067006100740069006f006e002000320100000176000001c40000012300fffffffb0000000a0043006f006c006f0072000000026c000000440000002800fffffffb0000000a0044006500700074006800000002b6000000840000002800ffffff000000010000010f0000034afc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003d0000034a000000a000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004420000003efc0100000002fb0000000800540069006d00650100000000000004420000000000000000fb0000000800540069006d006501000000000000045000000000000000000000028a000002ff00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001ca000002a0fc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df0000018500000168fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003b00000110000000c700fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb00000018004e0061007600690067006100740069006f006e0020003201000001510000018a0000011200fffffffb0000000a0043006f006c006f0072000000026c000000440000002800fffffffb0000000a0044006500700074006800000002b6000000840000002800ffffff000000010000010f0000034afc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003d0000034a000000a000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004420000003efc0100000002fb0000000800540069006d00650100000000000004420000000000000000fb0000000800540069006d0065010000000000000450000000000000000000000219000002a000000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Tool Properties:
     collapsed: false
   Views:
     collapsed: true
-  Width: 1114
-  X: 622
-  Y: 70
+  Width: 1001
+  X: 71
+  Y: 123

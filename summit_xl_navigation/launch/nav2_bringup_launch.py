@@ -18,13 +18,13 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, GroupAction,
-                            IncludeLaunchDescription, SetEnvironmentVariable)
+                            IncludeLaunchDescription, SetEnvironmentVariable, LogInfo)
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.actions import PushRosNamespace
-from nav2_common.launch import RewrittenYaml
+from nav2_common.launch import RewrittenYaml, ReplaceString
 
 
 def generate_launch_description():
@@ -60,18 +60,22 @@ def generate_launch_description():
         'use_sim_time': use_sim_time,
         'yaml_filename': map_yaml_file}
 
-    configured_params = RewrittenYaml(
+    configured_params_no_ns = RewrittenYaml(
         source_file=params_file,
         root_key=namespace, 
         param_rewrites=param_substitutions,
         convert_types=True)
+    
+    configured_params = ReplaceString(
+            source_file=configured_params_no_ns,
+            replacements={'<robot_namespace>': ('/', namespace)})
 
     stdout_linebuf_envvar = SetEnvironmentVariable(
         'RCUTILS_LOGGING_BUFFERED_STREAM', '1')
 
     declare_namespace_cmd = DeclareLaunchArgument(
         'namespace',
-        default_value='robot',
+        default_value='summit',
         description='Top-level namespace')
 
     declare_use_namespace_cmd = DeclareLaunchArgument(
@@ -168,9 +172,7 @@ def generate_launch_description():
     # Create the launch description and populate
     ld = LaunchDescription()
 
-    # Set environment variables
-    ld.add_action(stdout_linebuf_envvar)
-
+    # Set environment variablesconfigured_params
     # Declare the launch options
     ld.add_action(declare_namespace_cmd)
     ld.add_action(declare_use_namespace_cmd)
@@ -182,6 +184,10 @@ def generate_launch_description():
     ld.add_action(declare_use_composition_cmd)
     ld.add_action(declare_use_respawn_cmd)
     ld.add_action(declare_log_level_cmd)
+
+    # log params used
+    ld.add_action(LogInfo(msg=["params_file:", params_file]))
+    ld.add_action(LogInfo(msg=["configured_params:", configured_params]))
 
     # Add the actions to launch all of the navigation nodes
     ld.add_action(bringup_cmd_group)
