@@ -167,6 +167,15 @@ def generate_launch_description():
                               'use_composition': use_composition,
                               'use_respawn': use_respawn,
                               'container_name': 'nav2_container'}.items()),
+                            
+         # Launch rviz
+        Node(        
+            package='rviz2',
+            executable='rviz2',
+            remappings= [('/tf', 'tf'), ('/tf_static', 'tf_static')],
+            arguments=['-d', os.path.join(get_package_share_directory('summit_xl_navigation'), 'config_rviz', "nav2.rviz")],
+            output='screen')
+            
     ])
 
     # Create the launch description and populate
