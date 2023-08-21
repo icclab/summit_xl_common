@@ -29,7 +29,7 @@ from nav2_common.launch import RewrittenYaml, ReplaceString
 
 def generate_launch_description():
     # Get the launch directory
-    bringup_dir = get_package_share_directory('nav2_bringup')
+    bringup_dir = get_package_share_directory('summit_xl_navigation')
     launch_dir = os.path.join(bringup_dir, 'launch')
 
     # Create the launch configuration variables
@@ -137,16 +137,17 @@ def generate_launch_description():
             output='screen'),
 
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(launch_dir, 'slam_launch.py')),
+            PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('summit_xl_localization'), 'launch', 'slam_toolbox_online_async_launch.py')),
             condition=IfCondition(slam),
             launch_arguments={'namespace': namespace,
                               'use_sim_time': use_sim_time,
                               'autostart': autostart,
                               'use_respawn': use_respawn,
-                              'params_file': params_file}.items()),
+                              'params_file': params_file
+                             }.items()),
 
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('summit_xl_navigation'), 'launch',
+            PythonLaunchDescriptionSource(os.path.join(launch_dir,
                                                        'localization_launch.py')),
             condition=IfCondition(PythonExpression(['not ', slam])),
             launch_arguments={'namespace': namespace,
@@ -159,7 +160,7 @@ def generate_launch_description():
                               'container_name': 'nav2_container'}.items()),
 
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('summit_xl_navigation'), 'launch', 'navigation_launch.py')),
+            PythonLaunchDescriptionSource(os.path.join(launch_dir, 'navigation_launch.py')),
             launch_arguments={'namespace': namespace,
                               'use_sim_time': use_sim_time,
                               'autostart': autostart,
@@ -168,12 +169,12 @@ def generate_launch_description():
                               'use_respawn': use_respawn,
                               'container_name': 'nav2_container'}.items()),
                             
-         # Launch rviz
+        # Launch rviz
         Node(        
             package='rviz2',
             executable='rviz2',
             remappings= [('/tf', 'tf'), ('/tf_static', 'tf_static')],
-            arguments=['-d', os.path.join(get_package_share_directory('summit_xl_navigation'), 'config_rviz', "nav2.rviz")],
+            arguments=['-d', os.path.join(bringup_dir, 'config_rviz', "nav2.rviz")],
             output='screen')
             
     ])
