@@ -2,23 +2,14 @@ summit_xl_common
 ================
 Common packages of the Summit XL: URDF description of the Summit XL, Summi XL Steel and Summit XL HL, platform messages and other files for simulation.
 
-<a href="url"><img src="https://www.roscomponents.com/273-big_default/summit-xl.jpg" align="left" height="275" width="275" ></a>
-
-<a href="url"><img src="https://www.roscomponents.com/811-thickbox_default/summit-xl-steel.jpg" align="left" height="275" width="275" ></a>
-<br />
-<br />
-<br />
-
-<a href="url"><img src="https://www.robotnik.es/web/wp-content/uploads/2014/04/summit_xl_hl_sim.png" align="left" height="150" width="275" ></a>
-
-
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
+<p align="center">
+  <img src="https://github.com/icclab/summit_xl_sim/blob/humble/doc/summit_xl.jpeg" height="275" />
+  <img src="https://github.com/icclab/summit_xl_sim/blob/humble/doc/summit_xl_steel.jpeg" height="275" />
+</p>
+<p align="center">
+  <img src="https://github.com/icclab/summit_xl_sim/blob/humble/doc/summit_xl_gazebo.png" height="275" />
+  <img src="https://github.com/icclab/summit_xl_sim/blob/humble/doc/summit_xl_steel_gazebo.png" height="275" />
+</p>
 
 
 
