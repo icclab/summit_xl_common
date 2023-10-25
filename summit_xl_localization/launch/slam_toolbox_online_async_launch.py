@@ -9,6 +9,8 @@ from nav2_common.launch import RewrittenYaml, ReplaceString
 
 
 def generate_launch_description():
+    ld = LaunchDescription()
+
     use_sim_time = LaunchConfiguration('use_sim_time')
     params_file = LaunchConfiguration('params_file')
     namespace = LaunchConfiguration('namespace')
@@ -16,8 +18,22 @@ def generate_launch_description():
     namespace_argument = DeclareLaunchArgument(
     name='namespace',
     description='Namespace of the robot',
-    default_value='robot',
+    default_value='summit',
     )
+    ld.add_action(namespace_argument)
+
+    declare_use_sim_time_argument = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='true',
+        description='Use simulation/Gazebo clock')
+    declare_slam_params_file_cmd = DeclareLaunchArgument(
+        'params_file',
+        default_value=os.path.join(get_package_share_directory("summit_xl_navigation"),
+                                   'params', 'nav2_params.yaml'),
+        description='Full path to the ROS2 parameters file to use for the slam_toolbox node')
+    
+    ld.add_action(declare_use_sim_time_argument)
+    ld.add_action(declare_slam_params_file_cmd)
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
@@ -45,16 +61,6 @@ def generate_launch_description():
             source_file=configured_params_no_ns,
             replacements={'<robot_namespace>': ('/', namespace)})
 
-    declare_use_sim_time_argument = DeclareLaunchArgument(
-        'use_sim_time',
-        default_value='true',
-        description='Use simulation/Gazebo clock')
-    declare_slam_params_file_cmd = DeclareLaunchArgument(
-        'params_file',
-        default_value=os.path.join(get_package_share_directory("summit_xl_navigation"),
-                                   'config', 'nav2_params.yaml'),
-        description='Full path to the ROS2 parameters file to use for the slam_toolbox node')
-
     start_async_slam_toolbox_node = Node(
         parameters=[
           configured_params,
@@ -70,13 +76,7 @@ def generate_launch_description():
         output='screen',
         remappings=remappings)
 
-    ld = LaunchDescription()
-
     ld.add_action(LogInfo(msg=['slam configured_params',configured_params]))
-
-    ld.add_action(namespace_argument)
-    ld.add_action(declare_use_sim_time_argument)
-    ld.add_action(declare_slam_params_file_cmd)
     ld.add_action(start_async_slam_toolbox_node)
 
     return ld
