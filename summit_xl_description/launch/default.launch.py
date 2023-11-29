@@ -120,8 +120,9 @@ def generate_launch_description():
     parameters=[{
       'robot_description': robot_description_param,
       'publish_frequency': 100.0,
-      'frame_prefix': [params['robot_id'], '/'],
+     # 'frame_prefix': [params['robot_id'], '/'],
     }],
+    remappings= [('/tf', 'tf'), ('/tf_static', 'tf_static')],
   ))
 
   return ld
