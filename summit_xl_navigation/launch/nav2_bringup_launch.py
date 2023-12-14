@@ -90,8 +90,8 @@ def generate_launch_description():
 
     declare_map_yaml_cmd = DeclareLaunchArgument(
         'map',
-        default_value=os.path.join(get_package_share_directory('summit_xl_gazebo'), 'maps', 'turtlebot3_house.yaml'),
-        # default_value=os.path.join(get_package_share_directory('nav2_bringup'), 'maps', 'turtlebot3_world.yaml'),
+        # default_value=os.path.join(get_package_share_directory('summit_xl_gazebo'), 'maps', 'turtlebot3_house.yaml'),
+        default_value=os.path.join(get_package_share_directory('nav2_bringup'), 'maps', 'turtlebot3_world.yaml'),
         description='Full path to map yaml file to load')
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
@@ -169,13 +169,13 @@ def generate_launch_description():
                               'use_respawn': use_respawn,
                               'container_name': 'nav2_container'}.items()),
                             
-        # Launch rviz
-        Node(        
-            package='rviz2',
-            executable='rviz2',
-            remappings= [('/tf', 'tf'), ('/tf_static', 'tf_static')],
-            arguments=['-d', os.path.join(bringup_dir, 'config_rviz', "nav2.rviz")],
-            output='screen')
+        # # Launch rviz
+        # Node(        
+        #     package='rviz2',
+        #     executable='rviz2',
+        #     remappings= [('/tf', 'tf'), ('/tf_static', 'tf_static')],
+        #     arguments=['-d', os.path.join(bringup_dir, 'config_rviz', "nav2.rviz")],
+        #     output='screen')
             
     ])
 
