@@ -43,6 +43,7 @@ def generate_launch_description():
     use_composition = LaunchConfiguration('use_composition')
     use_respawn = LaunchConfiguration('use_respawn')
     log_level = LaunchConfiguration('log_level')
+    start_rviz = LaunchConfiguration('start_rviz')
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
@@ -90,7 +91,6 @@ def generate_launch_description():
 
     declare_map_yaml_cmd = DeclareLaunchArgument(
         'map',
-        # default_value=os.path.join(get_package_share_directory('summit_xl_gazebo'), 'maps', 'turtlebot3_house.yaml'),
         default_value=os.path.join(get_package_share_directory('nav2_bringup'), 'maps', 'turtlebot3_world.yaml'),
         description='Full path to map yaml file to load')
 
@@ -119,6 +119,12 @@ def generate_launch_description():
     declare_log_level_cmd = DeclareLaunchArgument(
         'log_level', default_value='info',
         description='log level')
+    
+    declare_rviz = DeclareLaunchArgument(
+        name='start_rviz',
+        description='Start rviz',
+        default_value='True',
+    )
 
     # Specify the actions
     bringup_cmd_group = GroupAction([
@@ -169,13 +175,15 @@ def generate_launch_description():
                               'use_respawn': use_respawn,
                               'container_name': 'nav2_container'}.items()),
                             
-        # # Launch rviz
-        # Node(        
-        #     package='rviz2',
-        #     executable='rviz2',
-        #     remappings= [('/tf', 'tf'), ('/tf_static', 'tf_static')],
-        #     arguments=['-d', os.path.join(bringup_dir, 'config_rviz', "nav2.rviz")],
-        #     output='screen')
+        
+        # Launch rviz
+        Node(
+            condition=IfCondition(PythonExpression([start_rviz])),       
+            package='rviz2',
+            executable='rviz2',
+            remappings= [('/tf', 'tf'), ('/tf_static', 'tf_static')],
+            arguments=['-d', os.path.join(bringup_dir, 'config_rviz', "nav2.rviz")],
+            output='screen')
             
     ])
 
@@ -194,6 +202,7 @@ def generate_launch_description():
     ld.add_action(declare_use_composition_cmd)
     ld.add_action(declare_use_respawn_cmd)
     ld.add_action(declare_log_level_cmd)
+    ld.add_action(declare_rviz)
 
     # log params used
     ld.add_action(LogInfo(msg=["params_file:", params_file]))

@@ -18,6 +18,8 @@
 
 	<!-- Import all available sensors -->
 	<xacro:include filename="$(find robotnik_sensors)/urdf/all_sensors.urdf.xacro" />
+<!-- Import our modified sensor -->
+	<xacro:include filename="$(find summit_xl_description)/urdf/sensors/hokuyo_ust20lx_no_frame_prefix.urdf.xacro" />
 
 	<xacro:property name="PI" value="3.1415926535897931"/>
 
@@ -27,13 +29,13 @@
 	<xacro:property name="wheel_offset_y" value="0.2045" />
 	<xacro:property name="wheel_offset_z" value="0.0" />
 
-	<xacro:property name="front_laser_offset_x" value="0.2865"/>
-	<xacro:property name="front_laser_offset_y" value="-0.20894"/>
-	<xacro:property name="front_laser_offset_z" value="0.2973"/>
+	<xacro:property name="front_laser_offset_x" value="0.356"/>
+	<xacro:property name="front_laser_offset_y" value="-0.251"/>
+	<xacro:property name="front_laser_offset_z" value="0.1566"/>
 
-	<xacro:property name="rear_laser_offset_x" value="-0.2865"/>
-	<xacro:property name="rear_laser_offset_y" value="0.20894"/>
-	<xacro:property name="rear_laser_offset_z" value="0.2973"/>
+	<xacro:property name="rear_laser_offset_x" value="-0.35"/>
+	<xacro:property name="rear_laser_offset_y" value="0.251"/>
+	<xacro:property name="rear_laser_offset_z" value="0.1566"/>
 
 	<xacro:property name="front_ptz_camera_offset_x" value="0.308"/>
 	<xacro:property name="front_ptz_camera_offset_y" value="0.141"/>
@@ -91,18 +93,20 @@
 			<origin xyz="-${wheel_offset_x} -${wheel_offset_y} ${wheel_offset_z}" rpy="0 0 0"/>
 		</xacro:omni_wheel>
         <!-- IMU -->
-		<xacro:sensor_imu prefix="$(arg prefix)imu" parent="$(arg prefix)base_link">
+		<xacro:sensor_imu_hector prefix="$(arg prefix)imu" ns="$(arg robot_ns)" parent="$(arg prefix)base_link">
 			<origin xyz="${imu_offset_x} ${imu_offset_y} ${imu_offset_z}" rpy="0 0 0"/>
-		</xacro:sensor_imu>
+		</xacro:sensor_imu_hector>
 
 
 		<!-- SENSORS -->
-		<xacro:sensor_sick_s300 prefix="$(arg prefix)front_laser" parent="$(arg prefix)base_link" prefix_topic="front_laser" gpu="$(arg gpu)">
+		<xacro:sensor_hokuyo_ust20lx_no_frame_prefix ns="$(arg robot_ns)" prefix="front_laser" parent="base_link">
 			<origin xyz="${front_laser_offset_x} ${front_laser_offset_y} ${front_laser_offset_z}" rpy="0 ${-PI} ${3/4*PI}" />
-		</xacro:sensor_sick_s300>
-		<xacro:sensor_sick_s300 prefix="$(arg prefix)rear_laser" parent="$(arg prefix)base_link" prefix_topic="rear_laser" gpu="$(arg gpu)">
+		</xacro:sensor_hokuyo_ust20lx_no_frame_prefix>
+
+        <xacro:sensor_hokuyo_ust20lx_no_frame_prefix ns="$(arg robot_ns)" prefix="rear_laser" parent="base_link">
 			<origin xyz="${rear_laser_offset_x} ${rear_laser_offset_y} ${rear_laser_offset_z}" rpy="0 ${-PI} ${-1/4*PI}" />
-		</xacro:sensor_sick_s300>
+		</xacro:sensor_hokuyo_ust20lx_no_frame_prefix>
+
 
 		<!--xacro:sensor_axis_m5013 prefix="$(arg prefix)front_ptz_camera" parent="$(arg prefix)base_link">
 			<origin xyz="${front_ptz_camera_offset_x} ${front_ptz_camera_offset_y} ${front_ptz_camera_offset_z}" rpy="${-PI/2} 0 0"/>
@@ -113,7 +117,7 @@
 		</xacro:sensor_axis_m5013-->
 
 
-		<xacro:sensor_orbbec_astra prefix="$(arg prefix)front_rgbd_camera" parent="$(arg prefix)base_link" ns="front_rgbd_camera">
+		<xacro:sensor_orbbec_astra prefix="$(arg prefix)front_rgbd_camera" parent="$(arg prefix)base_link" ns="$(arg robot_ns)">
 			<origin xyz="${front_rgbd_camera_offset_x} ${front_rgbd_camera_offset_y} ${front_rgbd_camera_offset_z}" rpy="0 0 0"/>
 		</xacro:sensor_orbbec_astra>
 
