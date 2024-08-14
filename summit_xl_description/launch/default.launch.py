@@ -36,6 +36,8 @@ def read_params(ld : launch.LaunchDescription):
   robot_description_path = launch.substitutions.LaunchConfiguration('robot_description_path')
   robot_id = launch.substitutions.LaunchConfiguration('robot_id')
   robot_ns = launch.substitutions.LaunchConfiguration('robot_ns')
+  use_fake_hardware = launch.substitutions.LaunchConfiguration('use_fake_hardware')
+  
 
   ld.add_action(launch.actions.DeclareLaunchArgument(
     name='environment',
@@ -68,6 +70,13 @@ def read_params(ld : launch.LaunchDescription):
     default_value=robot_id,
   ))
 
+  ld.add_action(launch.actions.DeclareLaunchArgument(
+    name='use_fake_hardware',
+    description='Whetere you are using simulated HW',
+    default_value='false',
+  ))
+
+
   ret = {}
 
   if environment == 'false':
@@ -75,6 +84,7 @@ def read_params(ld : launch.LaunchDescription):
       'robot_description_path': robot_description_path,
       'robot_id': robot_id,
       'robot_ns': robot_ns,
+      'use_fake_hardware': use_fake_hardware,
     }
   else:
     if 'ROBOT_DESCRIPTION_PATH' in os.environ:
@@ -93,7 +103,7 @@ def read_params(ld : launch.LaunchDescription):
       ret['robot_id'] = os.environ['ROBOT_ID']
     else:
       ret['robot_id'] = robot_id
-
+    ret['use_fake_hardware'] = use_fake_hardware
   return ret
 
 
@@ -106,6 +116,7 @@ def generate_launch_description():
     ' ', params['robot_description_path'],
     ' robot_id:=', params['robot_id'],
     ' robot_ns:=', params['robot_ns'],
+    ' use_fake_hardware:=', params['use_fake_hardware'],
   ])
   # Create parameter
   robot_description_param = launch_ros.descriptions.ParameterValue(robot_description_content, value_type=str)
